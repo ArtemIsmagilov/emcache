@@ -469,6 +469,10 @@ class TestMemcacheAsciiProtocol:
 
         assert protocol._parser is None
 
+    async def test_quit_command(self, protocol):
+        await protocol.quit_command()
+        protocol._transport.write.assert_called_with(b"quit\r\n")
+
     async def test_auth_command(self, event_loop, protocol):
         async def coro():
             return await protocol.auth_command("a", "a")
